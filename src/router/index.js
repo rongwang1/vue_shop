@@ -1,27 +1,25 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Login from '../components/Login'
+import Home from '../components/Home'
 
 Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
-
 const router = new VueRouter({
-  routes
+  routes: [
+    { path: '/', redirect: '/login' },
+    { path: '/login', component: Login },
+    { path: '/Home', component: Home }
+  ]
+})
+// 挂载路由导航守卫(目的是为了判断当seessionStorage中不存在token值时,也就是用户没有登录，但是直接通过URL访问特定的页面，需要重新导航到登录页面)
+router.beforeEach((to, from, next) => {
+  // to将要访问的路径
+  // from代表从那个路径跳转而来
+  // next 是一个函数，表示可以“放行”
+  if (to.path === '/Login') return next()
+  const tokenStr = window.sessionStorage.getItem('token')
+  if (!tokenStr) return next('/Login')
+  next()
 })
 
 export default router
