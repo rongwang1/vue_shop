@@ -2,13 +2,20 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login'
 import Home from '../components/Home'
+import Welcome from '../components/Welcome'
+import Users from '../components/user/Users'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [
     { path: '/', redirect: '/login' },
     { path: '/login', component: Login },
-    { path: '/Home', component: Home }
+    {
+      path: '/Home',
+      component: Home,
+      redirect: '/Welcome',
+      children: [{ path: '/Welcome', component: Welcome }, { path: '/Users', component: Users }]
+    }
   ]
 })
 // 挂载路由导航守卫(目的是为了判断当seessionStorage中不存在token值时,也就是用户没有登录，但是直接通过URL访问特定的页面，需要重新导航到登录页面)
