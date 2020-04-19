@@ -269,7 +269,7 @@ export default {
         this.getUserList()
       })
     },
-    // 展示修改编辑内容对话框
+    // 展示修改编辑内容框
     async showEditDialog (id) {
       const { data: res } = await this.$http.get('users/' + id)
       if (res.meta.status !== 200) {
