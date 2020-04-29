@@ -14,7 +14,7 @@
       <el-aside :width="isCollapse ? '64px':'200px'">
         <div  class="toggleMenu"  @click="toggleCollapse">|||</div>
         <el-menu background-color="#333744" text-color="#fff" active-text-color="#409BFF"
-         :unique-opened="true"  :collapse="isCollapse" :collapse-transition="false" :router="true" :default-active="this.$route.path">
+         :unique-opened="true"  :collapse="isCollapse" :collapse-transition="false" :router="true" :default-active="routerpath">
           <!-- 一级菜单 -->
           <el-submenu :index="item.id+''"  v-for="item in menulist" :key="item.id">
             <template slot="title">
@@ -71,6 +71,9 @@ export default {
     toggleCollapse () {
       this.isCollapse = !this.isCollapse
     }
+  },
+  computed: {
+    routerpath () { return this.$route.meta.GuidePath ? this.$route.meta.JumpPath : this.$router.path }
   }
 }
 </script>
